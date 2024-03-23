@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+// App.jsx
+import React, { useEffect, useState } from "react";
 import ListTasks from "./components/ListTasks";
 import { Toaster } from "react-hot-toast";
 import CreateTask from "./components/CreateTask";
@@ -9,20 +10,20 @@ function App() {
   const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
-    setTasks(JSON.parse(localStorage.getItem("tasks")));
+    const storedTasks = JSON.parse(localStorage.getItem("tasks"));
+    if (storedTasks) {
+      setTasks(storedTasks);
+    }
   }, []);
 
   return (
-    <>
-      <DndProvider backend={HTML5Backend}>
-        <Toaster />
-        <div className="bg-slate-100 w-screen py-32 flex flex-col items-center justify-center gap-16 ">
-          <CreateTask tasks={tasks} setTasks={setTasks} />
-
-          <ListTasks tasks={tasks} setTasks={setTasks} />
-        </div>
-      </DndProvider>
-    </>
+    <DndProvider backend={HTML5Backend}>
+      <Toaster />
+      <div className="bg-slate-100 w-screen py-32 flex flex-col items-center justify-center gap-16 ">
+        <CreateTask tasks={tasks} setTasks={setTasks} />
+        <ListTasks tasks={tasks} setTasks={setTasks} />
+      </div>
+    </DndProvider>
   );
 }
 

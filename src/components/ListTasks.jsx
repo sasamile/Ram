@@ -8,13 +8,15 @@ function ListTasks({ tasks, setTasks }) {
   const [closed, setClosed] = useState([]);
 
   useEffect(() => {
-    const fTodos = tasks.filter((task) => task.status === "todo");
-    const fInProgress = tasks.filter((task) => task.status === "inProgress");
-    const fClosed = tasks.filter((task) => task.status === "closed");
+    if (tasks) {
+      const fTodos = tasks.filter((task) => task.status === "todo");
+      const fInProgress = tasks.filter((task) => task.status === "inProgress");
+      const fClosed = tasks.filter((task) => task.status === "closed");
 
-    setTodos(fTodos);
-    setInProgress(fInProgress);
-    setClosed(fClosed);
+      setTodos(fTodos);
+      setInProgress(fInProgress);
+      setClosed(fClosed);
+    }
   }, [tasks]);
 
   const statuses = ["todo", "inProgress"];
@@ -79,6 +81,8 @@ const Section = ({
   const remainingMemory = 8192 - totalWeight;
 
   const addItemToSection = (id) => {
+    if (!tasks) return;
+
     setTasks((prevTasks) => {
       const mTasks = prevTasks.map((t) => {
         if (t.id === id) {
@@ -86,6 +90,8 @@ const Section = ({
         }
         return t;
       });
+
+      if (!mTasks) return prevTasks;
 
       const fTodos = mTasks.filter((task) => task.status === "todo");
       const fInProgress = mTasks.filter((task) => task.status === "inProgress");
